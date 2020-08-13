@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 
@@ -30,6 +31,8 @@ class PersonajesAdapter(var listaPersonajes : List<Personaje>) : RecyclerView.Ad
         holder.textViewNombre.text = listaPersonajes[position].nombre
         holder.textViewRaza.text = listaPersonajes[position].raza
         holder.root.setBackgroundColor(ContextCompat.getColor(holder.root.context, if (listaPersonajes[position].esBueno) R.color.colorBgBueno else R.color.colorBgMalo))
+
+        holder.imageView.setOnClickListener{ Toast.makeText(it.context, "Yo me llamo ${listaPersonajes[position].nombre}", Toast.LENGTH_LONG).show() }
     }
 }
 

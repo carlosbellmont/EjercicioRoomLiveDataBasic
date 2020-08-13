@@ -32,6 +32,6 @@ class MainActivity : AppCompatActivity() {
         val personaje5 = Personaje("Orco Feo", "Orco", R.mipmap.orco, false)
         val personaje6 = Personaje("Smagu", "Dragon", R.mipmap.smagu, false)
 
-        return listOf(personaje1,personaje2,personaje3,personaje4,personaje5,personaje6)
+        return mutableListOf(personaje1,personaje2,personaje3,personaje4,personaje5,personaje6).apply { shuffle() }
     }
 }
