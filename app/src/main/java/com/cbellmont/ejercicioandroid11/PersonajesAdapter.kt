@@ -34,5 +34,10 @@ class PersonajesAdapter(var listaPersonajes : List<Personaje>) : RecyclerView.Ad
 
         holder.imageView.setOnClickListener{ Toast.makeText(it.context, "Yo me llamo ${listaPersonajes[position].nombre}", Toast.LENGTH_LONG).show() }
     }
+
+    fun updatePersonajes(newData: List<Personaje>){
+        listaPersonajes = newData
+        notifyDataSetChanged()
+    }
 }
 

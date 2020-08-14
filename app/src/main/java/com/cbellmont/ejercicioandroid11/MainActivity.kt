@@ -14,11 +14,18 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         createRecyclerView()
+
+        radioGroup.setOnCheckedChangeListener { group, checkedId ->
+            when (checkedId) {
+                rbTodos.id -> adapter.updatePersonajes(listaPersonajes)
+                rbBuenos.id -> adapter.updatePersonajes(listaPersonajes.filter { it.esBueno })
+                rbMalos.id -> adapter.updatePersonajes(listaPersonajes.filter { !it.esBueno })
+            }
+        }
     }
 
     private fun createRecyclerView() {
         adapter = PersonajesAdapter(listaPersonajes)
-
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = adapter
     }
