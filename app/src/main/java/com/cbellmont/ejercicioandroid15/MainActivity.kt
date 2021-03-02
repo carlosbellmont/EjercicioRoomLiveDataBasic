@@ -1,6 +1,7 @@
 package com.cbellmont.ejercicioandroid15
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -25,6 +26,7 @@ class MainActivity : AppCompatActivity() {
                 binding.rbMalos.id -> loadMalos()
             }
         }
+        Toast.makeText(this, "Atención! Cuando se ejecuta por primera vez esta app no muestra los personajes.", Toast.LENGTH_LONG).show()
     }
 
     private fun createRecyclerView() {
