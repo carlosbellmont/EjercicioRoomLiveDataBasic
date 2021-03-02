@@ -1,11 +1,15 @@
 package com.cbellmont.ejercicioandroid15
 
+import androidx.lifecycle.LiveData
 import androidx.room.*
 
 @Dao
 interface PersonajeDao {
     @Query("SELECT * FROM Personaje")
     fun getAll(): List<Personaje>
+
+    @Query("SELECT * FROM Personaje")
+    fun getAllLive(): LiveData<List<Personaje>>
 
     @Query("SELECT * FROM Personaje WHERE id IN (:PersonajesId)")
     fun loadAllByIds(PersonajesId: IntArray): List<Personaje>

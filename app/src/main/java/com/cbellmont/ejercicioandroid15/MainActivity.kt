@@ -3,6 +3,8 @@ package com.cbellmont.ejercicioandroid15
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.cbellmont.ejercicioandroid15.databinding.ActivityMainBinding
@@ -12,12 +14,19 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var adapter : PersonajesAdapter
     private lateinit var binding : ActivityMainBinding
+    private lateinit var model : MainActivityViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        model =  ViewModelProvider(this).get(MainActivityViewModel::class.java)
+
         createRecyclerView()
+
+        model.personajesList.observe(this) {
+            adapter.updatePersonajes(it)
+        }
 
         binding.radioGroup.setOnCheckedChangeListener { group, checkedId ->
             when (checkedId) {
@@ -30,49 +39,21 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun createRecyclerView() {
-        lifecycleScope.launch {
-            withContext(Dispatchers.IO) {
-                adapter = PersonajesAdapter(Db.getDatabase(this@MainActivity).personajesDao().getAll())
-            }
-            withContext(Dispatchers.Main) {
-                binding.recyclerView.layoutManager = LinearLayoutManager(this@MainActivity)
-                binding.recyclerView.adapter = adapter
-            }
-        }
+        adapter = PersonajesAdapter(listOf())
+        binding.recyclerView.layoutManager = LinearLayoutManager(this@MainActivity)
+        binding.recyclerView.adapter = adapter
     }
 
     private fun loadAll(){
-        lifecycleScope.launch {
-            withContext(Dispatchers.IO) {
-                val listaPersonajes = Db.getDatabase(this@MainActivity).personajesDao().getAll()
-                withContext(Dispatchers.Main) {
-                    adapter.updatePersonajes(listaPersonajes)
-                }
-            }
-        }
+        model.getAll()
     }
 
     private fun loadBuenos(){
-        lifecycleScope.launch {
-            withContext(Dispatchers.IO) {
-                val listaPersonajes = Db.getDatabase(this@MainActivity).personajesDao().loadAllBuenos()
+        model.getAllBuenos()
 
-                withContext(Dispatchers.Main) {
-                    adapter.updatePersonajes(listaPersonajes)
-                }
-            }
-        }
     }
 
     private fun loadMalos(){
-        lifecycleScope.launch {
-            withContext(Dispatchers.IO) {
-                val listaPersonajes = Db.getDatabase(this@MainActivity).personajesDao().loadAllMalos()
-
-                withContext(Dispatchers.Main) {
-                    adapter.updatePersonajes(listaPersonajes)
-                }
-            }
-        }
+        model.getAllMalos()
     }
 }
