@@ -30,7 +30,7 @@ class MainActivity : AppCompatActivity() {
     private fun createRecyclerView() {
         lifecycleScope.launch {
             withContext(Dispatchers.IO) {
-                adapter = PersonajesAdapter(App.getDatabase(this@MainActivity).PersonajesDao().getAll())
+                adapter = PersonajesAdapter(Db.getDatabase(this@MainActivity).personajesDao().getAll())
             }
             withContext(Dispatchers.Main) {
                 binding.recyclerView.layoutManager = LinearLayoutManager(this@MainActivity)
@@ -42,7 +42,7 @@ class MainActivity : AppCompatActivity() {
     private fun loadAll(){
         lifecycleScope.launch {
             withContext(Dispatchers.IO) {
-                val listaPersonajes = App.getDatabase(this@MainActivity).PersonajesDao().getAll()
+                val listaPersonajes = Db.getDatabase(this@MainActivity).personajesDao().getAll()
                 withContext(Dispatchers.Main) {
                     adapter.updatePersonajes(listaPersonajes)
                 }
@@ -53,7 +53,7 @@ class MainActivity : AppCompatActivity() {
     private fun loadBuenos(){
         lifecycleScope.launch {
             withContext(Dispatchers.IO) {
-                val listaPersonajes = App.getDatabase(this@MainActivity).PersonajesDao().loadAllBuenos()
+                val listaPersonajes = Db.getDatabase(this@MainActivity).personajesDao().loadAllBuenos()
 
                 withContext(Dispatchers.Main) {
                     adapter.updatePersonajes(listaPersonajes)
@@ -65,7 +65,7 @@ class MainActivity : AppCompatActivity() {
     private fun loadMalos(){
         lifecycleScope.launch {
             withContext(Dispatchers.IO) {
-                val listaPersonajes = App.getDatabase(this@MainActivity).PersonajesDao().loadAllMalos()
+                val listaPersonajes = Db.getDatabase(this@MainActivity).personajesDao().loadAllMalos()
 
                 withContext(Dispatchers.Main) {
                     adapter.updatePersonajes(listaPersonajes)
