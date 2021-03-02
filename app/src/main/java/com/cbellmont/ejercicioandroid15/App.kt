@@ -26,17 +26,15 @@ class App : Application() {
             return object : RoomDatabase.Callback() {
                 override fun onCreate(db: SupportSQLiteDatabase) {
                     CoroutineScope(Dispatchers.IO).launch {
-                        withContext(Dispatchers.IO) {
-                            val personajes : List<Personaje> = listOf(
-                                Personaje("Aragorn", "Humano", R.mipmap.aragorn, true) ,
-                                Personaje("Gandalf", "Mago", R.mipmap.gandalf, true),
-                                Personaje("Boromir", "Humano", R.mipmap.boromir, true),
-                                Personaje("Legolas", "Elfo", R.mipmap.legolas, true),
-                                Personaje("Orco Feo", "Orco", R.mipmap.orco, false),
-                                Personaje("Smagu", "Dragon", R.mipmap.smagu, false)
-                            )
-                            App.db?.PersonajesDao()?.insertAll(personajes)
-                        }
+                        val personajes : List<Personaje> = listOf(
+                            Personaje("Aragorn", "Humano", R.mipmap.aragorn, true) ,
+                            Personaje("Gandalf", "Mago", R.mipmap.gandalf, true),
+                            Personaje("Boromir", "Humano", R.mipmap.boromir, true),
+                            Personaje("Legolas", "Elfo", R.mipmap.legolas, true),
+                            Personaje("Orco Feo", "Orco", R.mipmap.orco, false),
+                            Personaje("Smagu", "Dragon", R.mipmap.smagu, false)
+                        )
+                        App.db?.PersonajesDao()?.insertAll(personajes)
                     }
                 }
                 override fun onOpen(db: SupportSQLiteDatabase) {

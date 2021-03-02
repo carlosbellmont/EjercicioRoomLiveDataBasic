@@ -1,43 +1,46 @@
 package com.cbellmont.ejercicioandroid15
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import kotlinx.android.synthetic.main.activity_main.*
+import com.cbellmont.ejercicioandroid15.databinding.ActivityMainBinding
 import kotlinx.coroutines.*
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var adapter : PersonajesAdapter
+    private lateinit var binding : ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         createRecyclerView()
 
-        radioGroup.setOnCheckedChangeListener { group, checkedId ->
+        binding.radioGroup.setOnCheckedChangeListener { group, checkedId ->
             when (checkedId) {
-                rbTodos.id -> loadAll()
-                rbBuenos.id -> loadBuenos()
-                rbMalos.id -> loadMalos()
+                binding.rbTodos.id -> loadAll()
+                binding.rbBuenos.id -> loadBuenos()
+                binding.rbMalos.id -> loadMalos()
             }
         }
     }
 
     private fun createRecyclerView() {
-        CoroutineScope(Dispatchers.IO).launch {
+        lifecycleScope.launch {
             withContext(Dispatchers.IO) {
                 adapter = PersonajesAdapter(App.getDatabase(this@MainActivity).PersonajesDao().getAll())
             }
             withContext(Dispatchers.Main) {
-                recyclerView.layoutManager = LinearLayoutManager(this@MainActivity)
-                recyclerView.adapter = adapter
+                binding.recyclerView.layoutManager = LinearLayoutManager(this@MainActivity)
+                binding.recyclerView.adapter = adapter
             }
         }
     }
 
     private fun loadAll(){
-        CoroutineScope(Dispatchers.IO).launch {
+        lifecycleScope.launch {
             withContext(Dispatchers.IO) {
                 val listaPersonajes = App.getDatabase(this@MainActivity).PersonajesDao().getAll()
                 withContext(Dispatchers.Main) {
@@ -48,7 +51,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun loadBuenos(){
-        CoroutineScope(Dispatchers.IO).launch {
+        lifecycleScope.launch {
             withContext(Dispatchers.IO) {
                 val listaPersonajes = App.getDatabase(this@MainActivity).PersonajesDao().loadAllBuenos()
 
@@ -60,7 +63,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun loadMalos(){
-        CoroutineScope(Dispatchers.IO).launch {
+        lifecycleScope.launch {
             withContext(Dispatchers.IO) {
                 val listaPersonajes = App.getDatabase(this@MainActivity).PersonajesDao().loadAllMalos()
 
