@@ -10,11 +10,10 @@ import kotlinx.coroutines.withContext
 
 class MainActivityViewModel (application: Application) : AndroidViewModel(application){
 
-    val personajesList: MutableLiveData<List<Personaje>> = MutableLiveData()
+//class MainActivityViewModel : ViewModel(){
 
-    init {
-        getAll()
-    }
+
+    val personajesList: MutableLiveData<List<Personaje>> = MutableLiveData()
 
     fun getAllBuenos(){
         viewModelScope.launch(Dispatchers.IO) {
@@ -31,7 +30,8 @@ class MainActivityViewModel (application: Application) : AndroidViewModel(applic
             withContext(Dispatchers.Main) {
                 personajesList.value = list
             }
-        }    }
+        }
+    }
 
     fun getAll(){
         viewModelScope.launch(Dispatchers.IO) {

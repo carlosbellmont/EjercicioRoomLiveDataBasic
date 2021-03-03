@@ -5,6 +5,7 @@ import androidx.room.*
 
 @Dao
 interface PersonajeDao {
+
     @Query("SELECT * FROM Personaje")
     fun getAll(): List<Personaje>
 
