@@ -35,6 +35,8 @@ class MainActivity : AppCompatActivity() {
                 binding.rbMalos.id -> loadMalos()
             }
         }
+
+        loadAll()
         Toast.makeText(this, "Atención! Cuando se ejecuta por primera vez esta app no muestra los personajes.", Toast.LENGTH_LONG).show()
     }
 
